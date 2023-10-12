@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   
+   <script>
+
+
+      function getComputerChoice(){
+       return Math.floor(Math.random()*3)+1;
+      }
+
+      function getPlayerChoice(){
+         return  prompt("choice one(rock,paper or scissors)").toLowerCase();
+      }
+
+      function playRound(playerSelection,computerSelection){
+         if(playerSelection == "rock" && computerSelection == "3"){
+            return "you win, rock smash scissors";
+         }
+         else if(playerSelection == "paper" && computerSelection == "1"){
+            return "you win, paper wraps rock";
+         }
+         else if(playerSelection == "scissors" && computerSelection == "2"){
+             return "you win, scissors cut paper";
+         }
+         else{
+             return "Computer win this round";
+         }
+      }
+      
+      function game(){
+         let playerScore =0;
+         let computerScore =0;
+
+         for( let i = 0;i<5; i++){
+            playerSelection = getPlayerChoice();
+            computerSelection = getComputerChoice();
+            let score = playRound(playerSelection,computerSelection);
+            console.log(score);
+            if(score == "Computer win this round"){
+               computerScore++;
+            }else{
+               playerScore++;
+            }
+
+         }
+        
+         console.log("player score = " + playerScore);
+         console.log("computer score = " + computerScore);
+
+        return;
+      }
+   </script>
+</body>
+</html>
+
+ 
