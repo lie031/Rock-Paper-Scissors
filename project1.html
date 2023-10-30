@@ -5,59 +5,108 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <div class="title">
+    <h1>rock-paper-scissor</h1>
+    <p>Play vs the computer and win</p>
+ </div>
+  
+
+
+  <div class="button-container">
+    <button class="btn">rock</button>
+    <button class="btn">paper</button>
+    <button class="btn">scissors</button>
+  </div>
+
+  <p class="winner"></p>
+  <p class="counter"></p>
+
 
   <script>
 
+    const btns = document.querySelectorAll('.btn');
+    const winner = document.querySelector('.winner');
+    const counter = document.querySelector('.counter');
+
+    let playerScore = 0;
+    let computerScore = 0;
 
     function getComputerChoice() {
-      return Math.floor(Math.random() * 3) + 1;
+       let computerChoice = Math.floor(Math.random() * 3) + 1;
+
+      if(computerChoice ===1){
+        computerChoice= "rock"
+      }
+      if(computerChoice ===2){
+        computerChoice= "paper"
+      }
+      if(computerChoice ===3){
+        computerChoice= "scissors"
+      }
+      return computerChoice;
     }
 
-    function getPlayerChoice() {
-      return prompt("choice one(rock,paper or scissors)").toLowerCase();
+    function getPlayerChoice(e){
+      const playerChoice = e.target.textContent;
+      return playerChoice;
     }
 
-    function playRound(playerSelection, computerSelection) {
-      if (playerSelection == "rock" && computerSelection == "3") {
-        return "you win, rock smash scissors";
+    function updateCounter(result){
+      if(result === "you win"){
+        playerScore++;
       }
-      else if (playerSelection == "paper" && computerSelection == "1") {
-        return "you win, paper wraps rock";
+      else if(result === "you lost"){
+        computerScore++;
       }
-      else if (playerSelection == "scissors" && computerSelection == "2") {
-        return "you win, scissors cut paper";
+
+      counter.textContent = `Player: ${playerScore} - Computer: ${computerScore}`
+
+      if(playerScore===5){
+        winner.textContent = "You are the overall winner!"
+        btns.forEach(btn => btn.disabled = true);
       }
-      else {
-        return "Computer win this round";
+      else if(computerScore ===5){
+        winner.textContent = "Computer are the overall Winner!"
+        btns.forEach(btn => btn.disabled = true);
       }
     }
 
-    function game() {
-      let playerScore = 0;
-      let computerScore = 0;
+    btns.forEach((btn)=>{
+      btn.addEventListener('click',(e) =>{
+        const playerChoice = getPlayerChoice(e);
+        const computerChoice = getComputerChoice();
+        const result = determineWinner(playerChoice,computerChoice);
+        console.log(result);
+        winner.textContent =result;
 
-      for (let i = 0; i < 5; i++) {
-        playerSelection = getPlayerChoice();
-        computerSelection = getComputerChoice();
-        let score = playRound(playerSelection, computerSelection);
-        console.log(score);
-        if (score == "Computer win this round") {
-          computerScore++;
-        } else {
-          playerScore++;
-        }
+        updateCounter(result);
+        
+      })
+    })
 
+    function determineWinner(playerChoice,computerChoice){
+      if(playerChoice === computerChoice){
+        return "its a tie";
       }
-
-      console.log("player score = " + playerScore);
-      console.log("computer score = " + computerScore);
-
-      return;
+      if(playerChoice === "rock"){
+        if(computerChoice === "paper") return "you lost";
+        if(computerChoice === "scissors") return "you win";
+      }
+      if(playerChoice === "paper"){
+        if(computerChoice === "scissors") return "you lost";
+        if(computerChoice === "rock") return "you win";
+      }
+      if(playerChoice === "scissors"){
+        if(computerChoice === "rock") return "you lost"
+        if(computerChoice === "paper") return "you win";
+      }   
     }
   </script>
+
 </body>
 
 </html>
